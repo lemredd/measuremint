@@ -13,22 +13,25 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
   </head>
   <body class="w-max m-auto">
-    <h1 class="text-xl font-bold">MeasureMint</h1>
-    <form class="grid grid-cols-2 gap-4 w-full" id="convertForm" hx-post="/convert" method="post">
+    <h1 class="text-xl font-bold my-8 text-center">MeasureMint</h1>
+    <form class="sm:grid grid-cols-2 gap-4" id="convertForm" hx-post="/convert" method="post">
       <fieldset class="fieldset col-span-2">
-        <legend class="fieldset-legend">Units</legend>
-        <input type="number" class="input w-full" name="units" placeholder="Enter units" />
+        <legend class="fieldset-legend">Quantity</legend>
+        <input type="number" class="input w-full" name="quantity" placeholder="Enter qty." required />
       </fieldset>
       <fieldset class="fieldset">
         <legend class="fieldset-legend">From</legend>
-        <input type="text" class="input" name="from" placeholder="Start typing for suggestions" />
+        <input type="text" class="input" name="from" placeholder="Type for suggestions" hx-get="/suggestions" hx-trigger="keyup delay:500ms" hx-target="#from-suggestions" hx-swap="afterbegin" hx-params="from" list="from-suggestions" required />
+        <datalist id="from-suggestions">
+          <option value="">loading...</option>
+        </datalist>
       </fieldset>
       <fieldset class="fieldset">
         <legend class="fieldset-legend">To</legend>
-        <input type="text" class="input" name="to" placeholder="Start typing for suggestions" />
+        <input type="text" class="input" name="to" placeholder="Type for suggestions" required />
       </fieldset>
+      <button type="submit" class="btn btn-primary w-full col-span-2">Convert!</button>
     </form>
-    <button type="submit" class="btn btn-primary w-full" form="convertForm">Convert!</button>
   </body>
 </html>
 
