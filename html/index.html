@@ -6,15 +6,24 @@
     <title>MeasureMint | convert units with breeze</title>
     <!-- ? HTMX -->
     <script defer src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    <script defer src="{{url_for('static', path='/js/htmx/response-targets.js')}}"></script>
+
 
     <!-- ? DaisyUI -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script defer src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
   </head>
-  <body class="w-max m-auto">
+  <body class="w-max m-auto" hx-ext="response-targets">
     <h1 class="text-xl font-bold my-8 text-center">MeasureMint</h1>
-    <form class="sm:grid grid-cols-2 gap-4" id="convertForm" hx-post="{{url_for('convert')}}" method="post" hx-target="output">
+    <form
+      class="sm:grid grid-cols-2 gap-4"
+      id="convertForm"
+      hx-post="{{url_for('convert')}}"
+      method="post"
+      hx-target="output[name=result]"
+      hx-target-error=""
+    >
       <fieldset class="fieldset col-span-2">
         <legend class="fieldset-legend">Quantity</legend>
         <input type="number" class="input w-full" name="quantity" placeholder="Enter qty." required />
