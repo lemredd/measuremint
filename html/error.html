@@ -1,3 +1,17 @@
-<div class="alert alert-error">
+<div class="alert alert-error flex justify-between items-center">
   <span>{{message}}</span>
+  <button class="btn btn-xs btn-ghost btn-error text-lg" id="closeToast">×</button>
 </div>
+<script type="module">
+function slideAndRemove() {
+  const animation = this.parentElement.animate(
+    [
+      { transform: "scale(1)", opacity: 1 },
+      { transform: "scale(0.9)", opacity: 0 },
+    ],
+    { duration: 300, easing: "ease-in-out" },
+  )
+  animation.addEventListener("finish", () => this.parentElement.remove())
+}
+closeToast.addEventListener("click", slideAndRemove)
+</script>
