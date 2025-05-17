@@ -20,10 +20,12 @@
         <input type="number" class="input w-full" name="quantity" placeholder="Enter qty." required />
       </fieldset>
       <fieldset class="fieldset">
+        <!-- TODO: add loading icon when suggestions are loading -->
         <legend class="fieldset-legend">From</legend>
         <input type="text" class="input" name="from_unit" placeholder="Type for suggestions" hx-get="{{url_for('suggest_units')}}" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="from_unit" list="suggestions" required />
       </fieldset>
       <fieldset class="fieldset">
+        <!-- TODO: add loading icon when suggestions are loading -->
         <legend class="fieldset-legend">To</legend>
         <input type="text" class="input" name="to_unit" placeholder="Type for suggestions" hx-get="{{url_for('suggest_units')}}" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="to_unit" list="suggestions" required />
       </fieldset>
