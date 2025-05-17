@@ -12,8 +12,23 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
   </head>
-  <body>
-    Hello world
+  <body class="w-max m-auto">
+    <h1 class="text-xl font-bold">MeasureMint</h1>
+    <form class="grid grid-cols-2 gap-4 w-full" id="convertForm" hx-post="/convert" method="post">
+      <fieldset class="fieldset col-span-2">
+        <legend class="fieldset-legend">Units</legend>
+        <input type="number" class="input w-full" name="units" placeholder="Enter units" />
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">From</legend>
+        <input type="text" class="input" name="from" placeholder="Start typing for suggestions" />
+      </fieldset>
+      <fieldset class="fieldset">
+        <legend class="fieldset-legend">To</legend>
+        <input type="text" class="input" name="to" placeholder="Start typing for suggestions" />
+      </fieldset>
+    </form>
+    <button type="submit" class="btn btn-primary w-full" form="convertForm">Convert!</button>
   </body>
 </html>
 
