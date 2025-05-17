@@ -21,15 +21,13 @@
       </fieldset>
       <fieldset class="fieldset">
         <legend class="fieldset-legend">From</legend>
-        <input type="text" class="input" name="from" placeholder="Type for suggestions" hx-get="/suggestions" hx-trigger="keyup delay:500ms" hx-target="#from-suggestions" hx-params="from" list="from-suggestions" required />
-        <datalist id="from-suggestions">
-          <option value="">loading...</option>
-        </datalist>
+        <input type="text" class="input" name="from" placeholder="Type for suggestions" hx-get="/suggestions" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="from" list="suggestions" required />
       </fieldset>
       <fieldset class="fieldset">
         <legend class="fieldset-legend">To</legend>
-        <input type="text" class="input" name="to" placeholder="Type for suggestions" required />
+        <input type="text" class="input" name="to" placeholder="Type for suggestions" hx-get="/suggestions" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="to" list="suggestions" required />
       </fieldset>
+      <datalist id="suggestions"></datalist>
       <button type="submit" class="btn btn-primary w-full col-span-2">Convert!</button>
     </form>
   </body>
