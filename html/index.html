@@ -14,35 +14,37 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
   </head>
-  <body class="w-max m-auto" hx-ext="response-targets">
+  <body class="w-max m-auto">
     <h1 class="text-xl font-bold my-8 text-center">MeasureMint</h1>
-    <form
-      class="sm:grid grid-cols-2 gap-4"
-      id="convertForm"
-      hx-post="{{url_for('convert')}}"
-      method="post"
-      hx-target="output[name=result]"
-      hx-target-error=""
-    >
-      <fieldset class="fieldset col-span-2">
-        <legend class="fieldset-legend">Quantity</legend>
-        <input type="number" class="input w-full" name="quantity" placeholder="Enter qty." required />
-      </fieldset>
-      <fieldset class="fieldset">
-        <!-- TODO: add loading icon when suggestions are loading -->
-        <legend class="fieldset-legend">From</legend>
-        <input type="text" class="input" name="from_unit" placeholder="Type for suggestions" hx-get="{{url_for('suggest_units')}}" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="from_unit" list="suggestions" required />
-      </fieldset>
-      <fieldset class="fieldset">
-        <!-- TODO: add loading icon when suggestions are loading -->
-        <legend class="fieldset-legend">To</legend>
-        <input type="text" class="input" name="to_unit" placeholder="Type for suggestions" hx-get="{{url_for('suggest_units')}}" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="to_unit" list="suggestions" required />
-      </fieldset>
-      <datalist id="suggestions"></datalist>
-      <button type="submit" class="btn btn-primary w-full col-span-2">Convert!</button>
-    </form>
-    <output name="result" for="convertForm" class="flex flex-col items-center justify-center"></output>
-    <output name="error" for="convertForm" class="toast"> </output>
+    <div hx-ext="response-targets">
+      <form
+        class="sm:grid grid-cols-2 gap-4"
+        id="convertForm"
+        hx-post="{{url_for('convert')}}"
+        method="post"
+        hx-target="output[name=result]"
+        hx-target-error="output[name=error]"
+      >
+        <fieldset class="fieldset col-span-2">
+          <legend class="fieldset-legend">Quantity</legend>
+          <input type="number" class="input w-full" name="quantity" placeholder="Enter qty." required />
+        </fieldset>
+        <fieldset class="fieldset">
+          <!-- TODO: add loading icon when suggestions are loading -->
+          <legend class="fieldset-legend">From</legend>
+          <input type="text" class="input" name="from_unit" placeholder="Type for suggestions" hx-get="{{url_for('suggest_units')}}" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="from_unit" list="suggestions" required />
+        </fieldset>
+        <fieldset class="fieldset">
+          <!-- TODO: add loading icon when suggestions are loading -->
+          <legend class="fieldset-legend">To</legend>
+          <input type="text" class="input" name="to_unit" placeholder="Type for suggestions" hx-get="{{url_for('suggest_units')}}" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="to_unit" list="suggestions" required />
+        </fieldset>
+        <datalist id="suggestions"></datalist>
+        <button type="submit" class="btn btn-primary w-full col-span-2">Convert!</button>
+      </form>
+      <output name="result" for="convertForm" class="flex flex-col items-center justify-center"></output>
+      <output name="error" for="convertForm" class="toast"></output>
+    </div>
   </body>
 </html>
 
