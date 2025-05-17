@@ -1,4 +1,7 @@
-from fastapi import FastAPI, Request
+from decimal import Decimal, ROUND_UP
+from typing import Annotated
+
+from fastapi import FastAPI, Request, Response, Form
 from fastapi.templating import Jinja2Templates
 
 from pint import UnitRegistry
@@ -9,7 +12,7 @@ templates = Jinja2Templates(directory="html")
 
 
 @app.get("/")
-async def index(request: Request):
+async def index(request: Request) -> Response:
     return templates.TemplateResponse(request=request, name="index.html")
 
 
@@ -17,8 +20,8 @@ units = sorted([str(unit).replace("_", " ") for unit in UnitRegistry()])
 
 
 @app.get("/suggestions")
-async def suggest_units(request: Request):
-    value = request.query_params.get("from") or request.query_params.get("to")
+async def suggest_units(request: Request) -> Response:
+    value = request.query_params.get("from_unit") or request.query_params.get("to_unit")
 
     if value:
         filtered = [*filter(lambda u: value in u, units)][:10]
@@ -31,4 +34,27 @@ async def suggest_units(request: Request):
     context = {"units": filtered}
     return templates.TemplateResponse(
         request=request, name="suggestions.html", context=context
+    )
+
+
+@app.post("/convert")
+async def convert(
+    request: Request,
+    quantity: Annotated[float, Form()],
+    from_unit: Annotated[str, Form()],
+    to_unit: Annotated[str, Form()],
+) -> Response:
+    from_unit = from_unit.replace(" ", "_")
+    to_unit = to_unit.replace(" ", "_")
+
+    try:
+        result = UnitRegistry().Quantity(quantity, from_unit).to(to_unit)
+        result = Decimal(str(result.magnitude))
+        result = result.quantize(Decimal("0.0001"), rounding=ROUND_UP)
+    except Exception as e:
+        result = f"Error: {e}"
+
+    context = {"result": result}
+    return templates.TemplateResponse(
+        request=request, name="convert.html", context=context
     )
