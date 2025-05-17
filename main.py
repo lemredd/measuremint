@@ -16,10 +16,18 @@ async def index(request: Request) -> Response:
     return templates.TemplateResponse(request=request, name="index.html")
 
 
+hx = FastAPI()
 units = sorted([str(unit).replace("_", " ") for unit in UnitRegistry()])
 
 
-@app.get("/suggestions")
+@hx.middleware("http")
+async def check_hx_request(request: Request, call_next):
+    if request.headers.get("HX-Request"):
+        return await call_next(request)
+    return Response("Cannot process this request", status_code=403)
+
+
+@hx.get("/suggestions")
 async def suggest_units(request: Request) -> Response:
     value = request.query_params.get("from_unit") or request.query_params.get("to_unit")
 
@@ -37,7 +45,7 @@ async def suggest_units(request: Request) -> Response:
     )
 
 
-@app.post("/convert")
+@hx.post("/convert")
 async def convert(
     request: Request,
     quantity: Annotated[float, Form()],
@@ -52,9 +60,13 @@ async def convert(
         result = Decimal(str(result.magnitude))
         result = result.quantize(Decimal("0.0001"), rounding=ROUND_UP)
     except Exception as e:
+        # TODO: return 400 bad request template
         result = f"Error: {e}"
 
     context = {"result": result}
     return templates.TemplateResponse(
         request=request, name="convert.html", context=context
     )
+
+
+app.mount("/hx", hx)
