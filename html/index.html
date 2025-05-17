@@ -14,22 +14,23 @@
   </head>
   <body class="w-max m-auto">
     <h1 class="text-xl font-bold my-8 text-center">MeasureMint</h1>
-    <form class="sm:grid grid-cols-2 gap-4" id="convertForm" hx-post="/convert" method="post">
+    <form class="sm:grid grid-cols-2 gap-4" id="convertForm" hx-post="/convert" method="post" hx-target="output">
       <fieldset class="fieldset col-span-2">
         <legend class="fieldset-legend">Quantity</legend>
         <input type="number" class="input w-full" name="quantity" placeholder="Enter qty." required />
       </fieldset>
       <fieldset class="fieldset">
         <legend class="fieldset-legend">From</legend>
-        <input type="text" class="input" name="from" placeholder="Type for suggestions" hx-get="/suggestions" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="from" list="suggestions" required />
+        <input type="text" class="input" name="from_unit" placeholder="Type for suggestions" hx-get="/suggestions" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="from_unit" list="suggestions" required />
       </fieldset>
       <fieldset class="fieldset">
         <legend class="fieldset-legend">To</legend>
-        <input type="text" class="input" name="to" placeholder="Type for suggestions" hx-get="/suggestions" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="to" list="suggestions" required />
+        <input type="text" class="input" name="to_unit" placeholder="Type for suggestions" hx-get="/suggestions" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="to_unit" list="suggestions" required />
       </fieldset>
       <datalist id="suggestions"></datalist>
       <button type="submit" class="btn btn-primary w-full col-span-2">Convert!</button>
     </form>
+    <output name="result" for="convertForm" class="flex flex-col items-center justify-center"></output>
   </body>
 </html>
 
