@@ -59,9 +59,29 @@ async def convert(
         result = UnitRegistry().Quantity(quantity, from_unit).to(to_unit)
         result = Decimal(str(result.magnitude))
         result = result.quantize(Decimal("0.0001"), rounding=ROUND_UP)
+    except UndefinedUnitError as e:
+        message = f"'{e.args[0]}' is not a valid unit!"
+        return templates.TemplateResponse(
+            request=request,
+            name="error.html",
+            context={"message": message},
+            status_code=422,
+        )
+    except DimensionalityError:
+        message = f"Converting {from_unit} to {to_unit} is not possible!"
+        return templates.TemplateResponse(
+            request=request,
+            name="error.html",
+            context={"message": message},
+            status_code=422,
+        )
     except Exception as e:
-        # TODO: return 400 bad request template
-        result = f"Error: {e}"
+        return templates.TemplateResponse(
+            request=request,
+            name="error.html",
+            context={"message": str(e)},
+            status_code=500,
+        )
 
     context = {"result": result}
     return templates.TemplateResponse(
