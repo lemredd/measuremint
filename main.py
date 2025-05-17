@@ -12,5 +12,5 @@ async def index(request: Request):
 
 
 @app.get("/suggestions")
-async def index(request):
+async def suggest_units(request: Request):
     return templates.TemplateResponse(request=request, name="suggestions.html")
