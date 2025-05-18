@@ -34,7 +34,10 @@ hx = FastAPI(
     description=hx_description,
     # TODO: get latest git tag
     version="0.1.0",
-    swagger_ui_parameters={"supportedSubmitMethods": []},
+    swagger_ui_parameters={
+        "supportedSubmitMethods": [],
+        "defaultModelsExpandDepth": -1,
+    },
     docs_url=None,
     redoc_url=None,
 )
@@ -47,6 +50,7 @@ async def hx_docs(request: Request) -> HTMLResponse:
         openapi_url=f"{root_path}{hx.openapi_url}",
         title=f"{hx.title} | Swagger UI",
         swagger_favicon_url="/static/favicon/favicon.ico",
+        swagger_ui_parameters=hx.swagger_ui_parameters,
     )
 
 
