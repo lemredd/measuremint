@@ -4,11 +4,12 @@
 </div>
 <script type="module">
 function slideAndRemove() {
+  const keyframes = [
+    { transform: "scale(1)", opacity: 1 },
+    { transform: "scale(0.9)", opacity: 0 },
+  ]
   const animation = this.parentElement.animate(
-    [
-      { transform: "scale(1)", opacity: 1 },
-      { transform: "scale(0.9)", opacity: 0 },
-    ],
+    keyframes,
     { duration: 300, easing: "ease-in-out" },
   )
   animation.addEventListener("finish", () => this.parentElement.remove())
