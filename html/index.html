@@ -1,6 +1,6 @@
 {% import "forms.html" as forms %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="emerald">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,9 +15,12 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
   </head>
-  <body class="w-max m-auto">
-    <h1 class="text-xl font-bold my-8 text-center">MeasureMint</h1>
-    <div hx-ext="response-targets" class="space-y-4">
+  <body class="w-max m-auto py-8 space-y-4">
+    <header class="space-y-4">
+      <img src="{{url_for('static', path='/img/logo.png')}}" alt="MeasureMint" class="w-12 h-12 m-auto" />
+      <h1 class="text-xl font-bold text-center">MeasureMint</h1>
+    </header>
+    <main hx-ext="response-targets" class="space-y-4">
       <form
         class="space-y-4 sm:space-y-0 sm:grid grid-cols-2 gap-4"
         id="convertForm"
@@ -47,7 +50,7 @@
       </form>
       <output name="result" for="convertForm" class="flex flex-col items-center justify-center"></output>
       <output name="error" for="convertForm" class="toast"></output>
-    </div>
+    </main>
   </body>
 </html>
 
