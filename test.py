@@ -11,8 +11,13 @@ class HxApplicationTest(TestCase):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 403)
 
+    def test_documentation(self):
+        response = self.client.get("/docs")
+        self.assertEqual(response.status_code, 200)
+
     def test_suggest_units(self):
-        response = self.client.get("/suggestions", headers={"HX-Request": "true"})
+        response = self.client.get(
+            "/suggestions", headers={"HX-Request": "true"})
         self.assertEqual(response.status_code, 200)
 
     def test_undefined_units(self):
