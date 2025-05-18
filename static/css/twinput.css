@@ -1,0 +1,5 @@
+@import "tailwindcss" source(none);
+@plugin "./daisyui.js" {
+  themes: emerald --default, dim --prefersdark;
+}
+@source "../../html";
