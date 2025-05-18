@@ -3,8 +3,8 @@ from typing import Annotated
 
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.templating import Jinja2Templates
+from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi import FastAPI, Request, Response, Form, Query
 
 from pint import UnitRegistry
@@ -35,8 +35,19 @@ hx = FastAPI(
     # TODO: get latest git tag
     version="0.1.0",
     swagger_ui_parameters={"supportedSubmitMethods": []},
+    docs_url=None,
     redoc_url=None,
 )
+
+
+@hx.get("/docs", include_in_schema=False)
+async def hx_docs(request: Request) -> HTMLResponse:
+    root_path = request.scope.get("root_path").rstrip("/")
+    return get_swagger_ui_html(
+        openapi_url=f"{root_path}{hx.openapi_url}",
+        title=f"{hx.title} | Swagger UI",
+        swagger_favicon_url="/static/favicon/favicon.ico",
+    )
 
 
 @hx.middleware("http")
@@ -86,7 +97,8 @@ async def convert(
 ) -> HTMLResponse:
     """
     Converts `quantity` from `from_unit` to `to_unit`.
-    validation of units is handled by [pint](https://pint.readthedocs.io/en/stable/).
+    validation of units is handled by
+    [pint](https://pint.readthedocs.io/en/stable/).
     \nThis takes action when the form is submitted.
     """
     from_unit = from_unit.replace(" ", "_")
