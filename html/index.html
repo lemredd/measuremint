@@ -15,10 +15,11 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
   </head>
-  <body class="w-max m-auto py-8 space-y-4">
-    <header class="space-y-4">
+  <body class="w-max space-y-4 flex flex-col items-center justify-center h-screen w-screen">
+    <header class="space-y-2">
       <img src="{{url_for('static', path='/img/logo.png')}}" alt="MeasureMint" class="w-12 h-12 m-auto" />
       <h1 class="text-xl font-bold text-center">MeasureMint</h1>
+      <p class="text-sm text-center">convert units with <i>breeze</i></p>
     </header>
     <main hx-ext="response-targets" class="space-y-4">
       <form
@@ -48,7 +49,7 @@
           Convert!
         </button>
       </form>
-      <output name="result" for="convertForm" class="flex flex-col items-center justify-center"></output>
+      <output name="result" for="convertForm" class="flex flex-col items-center justify-start min-h-24"></output>
       <output name="error" for="convertForm" class="toast"></output>
     </main>
   </body>
