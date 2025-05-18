@@ -16,12 +16,13 @@
   </head>
   <body class="w-max m-auto">
     <h1 class="text-xl font-bold my-8 text-center">MeasureMint</h1>
-    <div hx-ext="response-targets">
+    <div hx-ext="response-targets" class="space-y-4">
       <form
-        class="sm:grid grid-cols-2 gap-4"
+        class="space-y-4 sm:space-y-0 sm:grid grid-cols-2 gap-4"
         id="convertForm"
         hx-post="{{url_for('convert')}}"
         method="post"
+        hx-indicator="[type=submit] .htmx-indicator"
         hx-target="output[name=result]"
         hx-target-error="output[name=error]"
       >
@@ -32,15 +33,49 @@
         <fieldset class="fieldset">
           <!-- TODO: add loading icon when suggestions are loading -->
           <legend class="fieldset-legend">From</legend>
-          <input type="text" class="input" name="from_unit" placeholder="Type for suggestions" hx-get="{{url_for('suggest_units')}}" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="from_unit" list="suggestions" required />
+          <label class="input">
+            <input
+              type="text"
+              class="focus:outline-0"
+              name="from_unit"
+              placeholder="Type for suggestions"
+              hx-get="{{url_for('suggest_units')}}"
+              hx-trigger="keyup delay:500ms"
+              hx-sync="this:replace"
+              hx-target="datalist"
+              hx-params="from_unit"
+              list="suggestions"
+              hx-indicator="next"
+              required
+            />
+            <svg class="htmx-indicator animate-spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11.5 4A8.5 8.5 0 0 0 3 12.5H2A9.5 9.5 0 0 1 11.5 3z"/></svg>
+          </label>
         </fieldset>
         <fieldset class="fieldset">
           <!-- TODO: add loading icon when suggestions are loading -->
           <legend class="fieldset-legend">To</legend>
-          <input type="text" class="input" name="to_unit" placeholder="Type for suggestions" hx-get="{{url_for('suggest_units')}}" hx-trigger="keyup delay:500ms" hx-target="datalist" hx-params="to_unit" list="suggestions" required />
+          <label class="input">
+            <input
+              type="text"
+              class="focus:outline-0"
+              name="to_unit"
+              placeholder="Type for suggestions"
+              hx-get="{{url_for('suggest_units')}}"
+              hx-trigger="keyup delay:500ms"
+              hx-target="datalist"
+              hx-params="to_unit"
+              list="suggestions"
+              hx-indicator="next"
+              required
+            />
+            <svg class="htmx-indicator animate-spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11.5 4A8.5 8.5 0 0 0 3 12.5H2A9.5 9.5 0 0 1 11.5 3z"/></svg>
+          </label>
         </fieldset>
         <datalist id="suggestions"></datalist>
-        <button type="submit" class="btn btn-primary w-full col-span-2">Convert!</button>
+        <button type="submit" class="btn btn-primary w-full col-span-2">
+          <svg class="htmx-indicator animate-spin -ml-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11.5 4A8.5 8.5 0 0 0 3 12.5H2A9.5 9.5 0 0 1 11.5 3z"/></svg>
+          Convert!
+        </button>
       </form>
       <output name="result" for="convertForm" class="flex flex-col items-center justify-center"></output>
       <output name="error" for="convertForm" class="toast"></output>
