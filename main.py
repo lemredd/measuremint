@@ -33,7 +33,8 @@ async def check_hx_request(request: Request, call_next):
 
 @hx.get("/suggestions")
 async def suggest_units(request: Request) -> Response:
-    value = request.query_params.get("from_unit") or request.query_params.get("to_unit")
+    value = request.query_params.get(
+        "from_unit") or request.query_params.get("to_unit")
 
     if value:
         filtered = [*filter(lambda u: value in u, units)][:10]
@@ -64,11 +65,17 @@ async def convert(
         result = Decimal(str(result.magnitude))
         result = result.quantize(Decimal("0.0001"), rounding=ROUND_UP)
     except UndefinedUnitError as e:
-        message = f"'{e.args[0]}' is not a valid unit!"
+        unit = e.args[0]
+        message = f"'{unit}' is not a valid unit!"
+        context = {"message": message}
+        if from_unit == unit:
+            context["from_unit"] = unit
+        if to_unit == unit:
+            context["to_unit"] = unit
         return templates.TemplateResponse(
             request=request,
             name="error.html",
-            context={"message": message},
+            context=context,
             status_code=422,
         )
     except DimensionalityError:
