@@ -28,6 +28,10 @@ units = sorted([str(unit).replace("_", " ") for unit in UnitRegistry()])
 async def check_hx_request(request: Request, call_next):
     if request.headers.get("HX-Request"):
         return await call_next(request)
+
+    stripped = request.url.path.strip("/hx/")
+    if stripped in ["docs", "openapi.json"]:
+        return await call_next(request)
     return Response("Cannot process this request", status_code=403)
 
 
