@@ -1,11 +1,11 @@
 from decimal import Decimal, ROUND_UP
 from typing import Annotated
 
-from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi import FastAPI, Request, Response, Form, Query
+from fastapi.responses import HTMLResponse, JSONResponse, Response
+from fastapi import FastAPI, Request, Form, Query, APIRouter, Body, HTTPException
 
 from pint import UnitRegistry
 from pint.errors import DimensionalityError, UndefinedUnitError
@@ -148,4 +148,26 @@ async def convert(
     )
 
 
+json = APIRouter(prefix="/json")
+
+
+@json.post("/convert")
+async def convert_json(
+    request: Request,
+    quantity: Annotated[float, Body()],
+    from_unit: Annotated[str, Body()],
+    to_unit: Annotated[str, Body()],
+) -> JSONResponse:
+    try:
+        result = UnitRegistry().Quantity(quantity, from_unit).to(to_unit)
+        result = Decimal(str(result.magnitude))
+        result = result.quantize(Decimal("0.0001"), rounding=ROUND_UP)
+    except Exception as e:
+        raise HTTPException(
+            status_code=422, detail=f"Error while converting: {str(e)}"
+        ) from e
+    return {"result": result}
+
+
 app.mount("/hx", hx)
+app.include_router(json)
